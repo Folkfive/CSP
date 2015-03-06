@@ -7,9 +7,23 @@ def enforce_gac(constraint_list):
        The pruned values will be removed from the variable object's cur_domain.
        enforce_gac modifies the variable objects that are in the scope of
        the constraints passed to it.'''
-    print("Complete this implementation")
 
-                            
+    GACQueue = list(constraint_list)
+    while not GACQueue:
+        c = GACQueue.pop(0)
+        for v in c.scope:
+            for d in v.cur_domain():
+                support = c.has_support(v, d)
+                if support == False:
+                    v.prune_value(d)
+                    if v.cur_domain_size() == 0:
+                        return False
+                    else:
+                        for constraint in constraint_list:
+                            if v in constraint.scope and constraint not in GACQueue:
+                                GACQueue.append(constraint)
+    return True
+
 def sudoku_enforce_gac_model_1(initial_sudoku_board):
     '''The input board is specified as a list of 9 lists. Each of the
        9 lists represents a row of the board. If a 0 is in the list it
