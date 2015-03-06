@@ -98,7 +98,17 @@ def sudoku_enforce_gac_model_1(initial_sudoku_board):
        
        '''
 
-   print("Complete the implementation")    
+    # Initialize variables
+    variables = 9 * [9 * [None]]
+    for row in range(len(initial_sudoku_board)):
+        for column in range(len(initial_sudoku_board[row_index])):
+            if value == 0:
+                variables[row][column] = Variable('c' + str(row_index) + str(column_index), range(1,9))
+            else:
+                variables[row][column] = Variable('c' + str(row_index) + str(column_index), value)
+
+    # Create constraints
+    # TODO
 
 ##############################
 
