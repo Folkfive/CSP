@@ -1,4 +1,5 @@
 from cspbase import *
+import itertools
 
 def enforce_gac(constraint_list):
     '''Input a list of constraint objects, each representing a constraint, then 
@@ -9,7 +10,7 @@ def enforce_gac(constraint_list):
        the constraints passed to it.'''
 
     GACQueue = list(constraint_list)
-    while not GACQueue:
+    while GACQueue:
         c = GACQueue.pop(0)
         for v in c.scope:
             for d in v.cur_domain():
@@ -99,16 +100,61 @@ def sudoku_enforce_gac_model_1(initial_sudoku_board):
        '''
 
     # Initialize variables
-    variables = 9 * [9 * [None]]
-    for row in range(len(initial_sudoku_board)):
-        for column in range(len(initial_sudoku_board[row_index])):
-            if value == 0:
-                variables[row][column] = Variable('c' + str(row_index) + str(column_index), range(1,9))
-            else:
-                variables[row][column] = Variable('c' + str(row_index) + str(column_index), value)
+    variables = sudoku_initialize_variables(initial_sudoku_board)
 
     # Create constraints
-    # TODO
+    constraints = []
+
+    # Row constrains
+    for i in range(9):
+        row = sudoku_board_get_row(variables, i)
+        for c1 in range(9):
+            for c2 in range(c1 + 1, 9):
+                v1 = row[c1]
+                v2 = row[c2]
+                constr = Constraint(v1.name + v2.name, [v1, v2])
+                constr.add_satisfying_tuples(sudoku_gen_satisfying_tuples_model1(v1.cur_domain(), v2.cur_domain()))
+                constraints.append(constr)
+
+    # Column constraints
+    for i in range(9):
+        column = sudoku_board_get_column(variables, i)
+        for c1 in range(9):
+            for c2 in range(c1 + 1, 9):
+                v1 = column[c1]
+                v2 = column[c2]
+                constr = Constraint(v1.name + v2.name, [v1, v2])
+                constr.add_satisfying_tuples(sudoku_gen_satisfying_tuples_model1(v1.cur_domain(), v2.cur_domain()))
+                constraints.append(constr)
+
+    # Sub-square constraints
+    for i in range(9):
+        subsquare = sudoku_board_get_subsquare(variables, i)
+        for c1 in range(9):
+            for c2 in range(c1 + 1, 9):
+                v1 = subsquare[c1]
+                v2 = subsquare[c2]
+                constr = Constraint(v1.name + v2.name, [v1, v2])
+                constr.add_satisfying_tuples(sudoku_gen_satisfying_tuples_model1(v1.cur_domain(), v2.cur_domain()))
+                constraints.append(constr)
+
+    gac_result = enforce_gac(constraints)
+
+    results = [[None, None, None, None, None, None, None, None, None],
+                 [None, None, None, None, None, None, None, None, None],
+                 [None, None, None, None, None, None, None, None, None],
+                 [None, None, None, None, None, None, None, None, None],
+                 [None, None, None, None, None, None, None, None, None],
+                 [None, None, None, None, None, None, None, None, None],
+                 [None, None, None, None, None, None, None, None, None],
+                 [None, None, None, None, None, None, None, None, None],
+                 [None, None, None, None, None, None, None, None, None]]
+
+    for row in range(9):
+        for column in range(9):
+            results[row][column] = variables[row][column].cur_domain()
+
+    return results
 
 ##############################
 
@@ -131,5 +177,113 @@ def sudoku_enforce_gac_model_2(initial_sudoku_board):
     all-different constraints between the relevant variables, then
     invoke enforce_gac on those constraints.
     '''
-     
-    print("Complete the implementation")
+
+    # Initialize variables
+    variables = sudoku_initialize_variables(initial_sudoku_board)
+
+    # Create constraints
+    constraints = []
+
+    # Row constraints
+    for i in range(9):
+        scope = row = sudoku_board_get_row(variables, i)
+        constr = Constraint('r' + str(i), scope)  
+        domains = [var.cur_domain() for var in scope]        
+        constr.add_satisfying_tuples(sudoku_gen_satisfying_tuples_model2(domains))
+        constraints.append(constr)
+
+    # Column constraints
+    for i in range(9):
+        scope = row = sudoku_board_get_column(variables, i)
+        constr = Constraint('c' + str(i), scope)  
+        domains = [var.cur_domain() for var in scope]        
+        constr.add_satisfying_tuples(sudoku_gen_satisfying_tuples_model2(domains))
+        constraints.append(constr)
+
+    # Subsquare constraints
+    for i in range(9):
+        scope = row = sudoku_board_get_subsquare(variables, i)
+        constr = Constraint('s' + str(i), scope)  
+        domains = [var.cur_domain() for var in scope]        
+        constr.add_satisfying_tuples(sudoku_gen_satisfying_tuples_model2(domains))
+        constraints.append(constr)
+
+    gac_result = enforce_gac(constraints)
+
+    results = [[None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None]]
+
+    for row in range(9):
+        for column in range(9):
+            results[row][column] = variables[row][column].cur_domain()
+
+    return results
+
+##############################
+def sudoku_initialize_variables(sudoku_board):
+    variables = [[None, None, None, None, None, None, None, None, None],
+                 [None, None, None, None, None, None, None, None, None],
+                 [None, None, None, None, None, None, None, None, None],
+                 [None, None, None, None, None, None, None, None, None],
+                 [None, None, None, None, None, None, None, None, None],
+                 [None, None, None, None, None, None, None, None, None],
+                 [None, None, None, None, None, None, None, None, None],
+                 [None, None, None, None, None, None, None, None, None],
+                 [None, None, None, None, None, None, None, None, None]]
+
+    for row in range(9):
+        for column in range(9):
+            value = sudoku_board[row][column]
+            if value == 0:
+                var = Variable('c' + str(row) + str(column), range(1,10))
+                variables[row][column] = var
+            else:
+                var = Variable('c' + str(row) + str(column), [value])
+                variables[row][column] = var
+
+    return variables
+
+def sudoku_board_get_row(sudoku_board, i):
+    return sudoku_board[i]
+
+def sudoku_board_get_column(sudoku_board, i):
+    return [sudoku_board[j][i] for j in range(9)]
+
+def sudoku_board_get_subsquare(sudoku_board, i):
+    first_row = (i // 3) * 3
+    first_col = (i % 3) * 3
+    subsquare = [None] * 9
+    for j in range(9):
+        subrj = j // 3
+        subcj = j % 3
+        subsquare[j] = sudoku_board[first_row + subrj][first_col + subcj]
+    return subsquare
+
+def sudoku_gen_satisfying_tuples_model1(dom1, dom2):
+    tuples = []
+    for elem in dom1:
+        [tuples.append([elem, x]) for x in dom2 if x != elem]
+
+    return tuples
+
+def sudoku_gen_satisfying_tuples_model2(domains):
+    all_combos = list(itertools.product(*domains))
+    return filter(tuple_unique_elems, all_combos)
+
+def tuple_unique_elems(t):
+    uniq = []
+    for elem in t:
+        if elem not in uniq:
+            uniq.append(elem)
+        else:
+            return False
+    return True
+
+    
