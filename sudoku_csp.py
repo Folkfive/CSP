@@ -274,8 +274,28 @@ def sudoku_gen_satisfying_tuples_model1(dom1, dom2):
     return tuples
 
 def sudoku_gen_satisfying_tuples_model2(domains):
-    all_combos = list(itertools.product(*domains))
-    return filter(tuple_unique_elems, all_combos)
+    #all_combos = list(itertools.product(*domains))
+    #return filter(tuple_unique_elems, all_combos)
+    
+    for v0 in domains[0]:
+        all_vars_domain = set(range(1,10)).difference(v0)
+        for v1 in set(domains[1]).intersection(all_vars_domain):
+            all_vars_domain = set(all_vars_domain).difference(v1)
+            for v2 in set(domains[2]).intersection(all_vars_domain):
+                all_vars_domain = set(all_vars_domain).difference(v2)
+                for v3 in set(domains[3]).intersection(all_vars_domain):
+                    all_vars_domain = set(all_vars_domain).difference(v3)
+                    for v4 in set(domains[4]).intersection(all_vars_domain):
+                        all_vars_domain = set(all_vars_domain).difference(v4)
+                        for v5 in set(domains[5]).intersection(all_vars_domain):
+                            all_vars_domain = set(all_vars_domain).difference(v5)
+                            for v6 in set(domains[6]).intersection(all_vars_domain):
+                                all_vars_domain = set(all_vars_domain).difference(v6)
+                                for v7 in set(domains[7]).intersection(all_vars_domain):
+                                    all_vars_domain = set(all_vars_domain).difference(v7)
+                                    for v8 in set(domains[8]).intersection(all_vars_domain):
+                                        tuples.append((v0,v1,v2,v3,v4,v5,v6,v7,v8))
+    return tuples
 
 def tuple_unique_elems(t):
     uniq = []
