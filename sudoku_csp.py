@@ -276,7 +276,7 @@ def sudoku_gen_satisfying_tuples_model1(dom1, dom2):
 def sudoku_gen_satisfying_tuples_model2(domains):
     #all_combos = list(itertools.product(*domains))
     #return filter(tuple_unique_elems, all_combos)
-    
+    tuples = [] 
     for v0 in domains[0]:
         all_vars_domain = set(range(1,10)).difference([v0])
         for v1 in set(domains[1]).intersection(all_vars_domain):
