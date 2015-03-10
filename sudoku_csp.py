@@ -1,5 +1,4 @@
 from cspbase import *
-import itertools
 
 def enforce_gac(constraint_list):
     '''Input a list of constraint objects, each representing a constraint, then 
@@ -141,14 +140,14 @@ def sudoku_enforce_gac_model_1(initial_sudoku_board):
     gac_result = enforce_gac(constraints)
 
     results = [[None, None, None, None, None, None, None, None, None],
-                 [None, None, None, None, None, None, None, None, None],
-                 [None, None, None, None, None, None, None, None, None],
-                 [None, None, None, None, None, None, None, None, None],
-                 [None, None, None, None, None, None, None, None, None],
-                 [None, None, None, None, None, None, None, None, None],
-                 [None, None, None, None, None, None, None, None, None],
-                 [None, None, None, None, None, None, None, None, None],
-                 [None, None, None, None, None, None, None, None, None]]
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None]]
 
     for row in range(9):
         for column in range(9):
@@ -186,7 +185,7 @@ def sudoku_enforce_gac_model_2(initial_sudoku_board):
 
     # Row constraints
     for i in range(9):
-        scope = row = sudoku_board_get_row(variables, i)
+        scope = sudoku_board_get_row(variables, i)
         constr = Constraint('r' + str(i), scope)  
         domains = [var.cur_domain() for var in scope]        
         constr.add_satisfying_tuples(sudoku_gen_satisfying_tuples_model2(domains))
@@ -194,7 +193,7 @@ def sudoku_enforce_gac_model_2(initial_sudoku_board):
 
     # Column constraints
     for i in range(9):
-        scope = row = sudoku_board_get_column(variables, i)
+        scope = sudoku_board_get_column(variables, i)
         constr = Constraint('c' + str(i), scope)  
         domains = [var.cur_domain() for var in scope]        
         constr.add_satisfying_tuples(sudoku_gen_satisfying_tuples_model2(domains))
@@ -202,7 +201,7 @@ def sudoku_enforce_gac_model_2(initial_sudoku_board):
 
     # Subsquare constraints
     for i in range(9):
-        scope = row = sudoku_board_get_subsquare(variables, i)
+        scope = sudoku_board_get_subsquare(variables, i)
         constr = Constraint('s' + str(i), scope)  
         domains = [var.cur_domain() for var in scope]        
         constr.add_satisfying_tuples(sudoku_gen_satisfying_tuples_model2(domains))
@@ -267,43 +266,28 @@ def sudoku_board_get_subsquare(sudoku_board, i):
     return subsquare
 
 def sudoku_gen_satisfying_tuples_model1(dom1, dom2):
-    tuples = []
-    for elem in dom1:
-        [tuples.append([elem, x]) for x in dom2 if x != elem]
-
-    return tuples
+    return [(x,y) for x in dom1 for y in dom2 if x != y]
 
 def sudoku_gen_satisfying_tuples_model2(domains):
-    #all_combos = list(itertools.product(*domains))
-    #return filter(tuple_unique_elems, all_combos)
-    tuples = [] 
-    for v0 in domains[0]:
-        all_vars_domain = set(range(1,10)).difference([v0])
-        for v1 in set(domains[1]).intersection(all_vars_domain):
-            all_vars_domain = set(all_vars_domain).difference([v1])
-            for v2 in set(domains[2]).intersection(all_vars_domain):
-                all_vars_domain = set(all_vars_domain).difference([v2])
-                for v3 in set(domains[3]).intersection(all_vars_domain):
-                    all_vars_domain = set(all_vars_domain).difference([v3])
-                    for v4 in set(domains[4]).intersection(all_vars_domain):
-                        all_vars_domain = set(all_vars_domain).difference([v4])
-                        for v5 in set(domains[5]).intersection(all_vars_domain):
-                            all_vars_domain = set(all_vars_domain).difference([v5])
-                            for v6 in set(domains[6]).intersection(all_vars_domain):
-                                all_vars_domain = set(all_vars_domain).difference([v6])
-                                for v7 in set(domains[7]).intersection(all_vars_domain):
-                                    all_vars_domain = set(all_vars_domain).difference([v7])
-                                    for v8 in set(domains[8]).intersection(all_vars_domain):
-                                        tuples.append((v0,v1,v2,v3,v4,v5,v6,v7,v8))
-    return tuples
-
-def tuple_unique_elems(t):
-    uniq = []
-    for elem in t:
-        if elem not in uniq:
-            uniq.append(elem)
-        else:
-            return False
-    return True
-
+    tuples = []
     
+    for v0 in domains[0]:
+        v1_new_domain = [x for x in domains[1] if x not in [v0]]
+        for v1 in v1_new_domain:
+            v2_new_domain = [x for x in domains[2] if x not in [v0, v1]]
+            for v2 in v2_new_domain:
+                v3_new_domain = [x for x in domains[3] if x not in [v0, v1, v2]]
+                for v3 in v3_new_domain:
+                    v4_new_domain = [x for x in domains[4] if x not in [v0, v1, v2, v3]]
+                    for v4 in v4_new_domain:
+                        v5_new_domain = [x for x in domains[5] if x not in [v0, v1, v2, v3, v4]]
+                        for v5 in v5_new_domain:
+                            v6_new_domain = [x for x in domains[6] if x not in [v0, v1, v2, v3, v4, v5]]
+                            for v6 in v6_new_domain:
+                                v7_new_domain = [x for x in domains[7] if x not in [v0, v1, v2, v3, v4, v5, v6]]
+                                for v7 in v7_new_domain:
+                                    v8_new_domain = [x for x in domains[8] if x not in [v0, v1, v2, v3, v4, v5, v6, v7]]
+                                    for v8 in v8_new_domain:
+                                        tuples.append((v0,v1,v2,v3,v4,v5,v6,v7,v8))
+
+    return tuples
