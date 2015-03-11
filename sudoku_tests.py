@@ -81,12 +81,12 @@ if __name__ == '__main__':
         for row in b:
             print(row)
         print("--------------------------------------------")
-        print "GAC reduced domains from MODEL 1"
+        print("GAC reduced domains from MODEL 1")
         sol1 = sudoku_enforce_gac_model_1(b)
         for row in sol1:
-            print row
-        print "GAC reduced domains from MODEL 2"
+            print(row)
+        print("GAC reduced domains from MODEL 2")
         sol2 = sudoku_enforce_gac_model_2(b)
         for row in sol2:
-            print row
+            print(row)
         print("============================================")
