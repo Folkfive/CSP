@@ -138,22 +138,7 @@ def sudoku_enforce_gac_model_1(initial_sudoku_board):
                 constraints.append(constr)
 
     gac_result = enforce_gac(constraints)
-
-    results = [[None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None]]
-
-    for row in range(9):
-        for column in range(9):
-            results[row][column] = variables[row][column].cur_domain()
-
-    return results
+    return sudoku_gen_results(variables, gac_result)
 
 ##############################
 
@@ -208,22 +193,7 @@ def sudoku_enforce_gac_model_2(initial_sudoku_board):
         constraints.append(constr)
 
     gac_result = enforce_gac(constraints)
-
-    results = [[None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None]]
-
-    for row in range(9):
-        for column in range(9):
-            results[row][column] = variables[row][column].cur_domain()
-
-    return results
+    return sudoku_gen_results(variables, gac_result)
 
 ##############################
 def sudoku_initialize_variables(sudoku_board):
@@ -246,7 +216,6 @@ def sudoku_initialize_variables(sudoku_board):
             else:
                 var = Variable('c' + str(row) + str(column), [value])
                 variables[row][column] = var
-
     return variables
 
 def sudoku_board_get_row(sudoku_board, i):
@@ -289,5 +258,25 @@ def sudoku_gen_satisfying_tuples_model2(domains):
                                     v8_new_domain = [x for x in domains[8] if x not in [v0, v1, v2, v3, v4, v5, v6, v7]]
                                     for v8 in v8_new_domain:
                                         tuples.append((v0,v1,v2,v3,v4,v5,v6,v7,v8))
-
     return tuples
+
+def sudoku_gen_results(variables, gac_result):
+    results = [[None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None]]
+
+    if gac_result:
+        for row in range(9):
+            for column in range(9):
+                results[row][column] = variables[row][column].cur_domain()
+    # encountered DWO
+    else:
+        for row in range(9):
+            results[row] = [[],[],[],[],[],[],[],[],[]]
+    return results
