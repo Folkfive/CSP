@@ -1,0 +1,199 @@
+**************************************************
+Tests of enforce_gac
+**************************************************
+gac_test_0
+OK: Result is correct.
+Mark = 2/2
+----------
+
+gac_test_1
+OK: Result is correct.
+Mark = 2/2
+----------
+
+gac_test_2
+OK: Result is correct.
+Mark = 2/2
+----------
+
+gac_test_3
+OK: Result is correct.
+Mark = 2/2
+----------
+
+gac_test_4
+OK: Result is correct.
+Mark = 2/2
+----------
+
+gac_test_5
+OK: Result is correct.
+Mark = 2/2
+----------
+
+gac_test_6
+OK: Result is correct.
+Mark = 2/2
+----------
+
+gac_test_7
+OK: Result is correct.
+Mark = 2/2
+----------
+
+gac_test_8
+OK: Result is correct.
+Mark = 2/2
+----------
+
+gac_test_9
+OK: Result is correct.
+Mark = 2/2
+----------
+
+Mark Total for Tests of enforce_gac= 20.00/20
+
+**************************************************
+Tests of sudoku Model 1
+**************************************************
+model_1_test_0
+OK: Result is correct.
+Your code took 0.20585900000000001 sec. CPU time. The master solution took 0.26826399999999995 sec. CPU time.
+Mark = 3/3
+----------
+
+model_1_test_1
+OK: Result is correct.
+Your code took 0.16190999999999997 sec. CPU time. The master solution took 0.21890199999999999 sec. CPU time.
+Mark = 3/3
+----------
+
+model_1_test_2
+OK: Result is correct.
+Your code took 0.16347999999999996 sec. CPU time. The master solution took 0.217752 sec. CPU time.
+Mark = 3/3
+----------
+
+model_1_test_3
+OK: Result is correct.
+Your code took 0.17556900000000003 sec. CPU time. The master solution took 0.22038 sec. CPU time.
+Mark = 3/3
+----------
+
+model_1_test_4
+OK: Result is correct.
+Your code took 0.182128 sec. CPU time. The master solution took 0.22767700000000002 sec. CPU time.
+Mark = 3/3
+----------
+
+model_1_test_5
+OK: Result is correct.
+Your code took 0.16862599999999994 sec. CPU time. The master solution took 0.223626 sec. CPU time.
+Mark = 3/3
+----------
+
+model_1_test_6
+OK: Result is correct.
+Your code took 0.17518899999999993 sec. CPU time. The master solution took 0.229764 sec. CPU time.
+Mark = 3/3
+----------
+
+model_1_test_7
+OK: Result is correct.
+Your code took 0.19421099999999997 sec. CPU time. The master solution took 0.249598 sec. CPU time.
+Mark = 3/3
+----------
+
+model_1_test_8
+OK: Result is correct.
+Your code took 0.18133200000000002 sec. CPU time. The master solution took 0.22848000000000002 sec. CPU time.
+Mark = 3/3
+----------
+
+model_1_test_9
+OK: Result is correct.
+Your code took 0.16607999999999998 sec. CPU time. The master solution took 0.21368199999999998 sec. CPU time.
+Mark = 3/3
+----------
+
+Mark Total for Tests of sudoku Model 1= 30.00/30
+
+**************************************************
+Tests of sudoku Model 2
+**************************************************
+model_2_test_0
+OK: Result is correct.
+Your code took 1.2146119999999998 sec. CPU time. The master solution took 1.593785 sec. CPU time.
+Mark = 4/4
+----------
+
+model_2_test_1
+OK: Result is correct.
+Your code took 5.047882999999999 sec. CPU time. The master solution took 8.985218 sec. CPU time.
+Mark = 4/4
+----------
+
+model_2_test_2
+OK: Result is correct.
+Your code took 2.2848909999999996 sec. CPU time. The master solution took 2.380214 sec. CPU time.
+Mark = 4/4
+----------
+
+model_2_test_3
+OK: Result is correct.
+Your code took 1.1087580000000001 sec. CPU time. The master solution took 1.0144760000000002 sec. CPU time.
+Mark = 4/4
+----------
+
+model_2_test_4
+OK: Result is correct.
+Your code took 10.646801 sec. CPU time. The master solution took 13.150779 sec. CPU time.
+Mark = 4/4
+----------
+
+model_2_test_5
+OK: Result is correct.
+Your code took 1.110641 sec. CPU time. The master solution took 0.9809499999999999 sec. CPU time.
+Mark = 4/4
+----------
+
+model_2_test_6
+OK: Result is correct.
+Your code took 1.32297 sec. CPU time. The master solution took 1.1164489999999998 sec. CPU time.
+Mark = 4/4
+----------
+
+model_2_test_7
+OK: Result is correct.
+Your code took 7.165949000000001 sec. CPU time. The master solution took 12.54416 sec. CPU time.
+Mark = 4/4
+----------
+
+model_2_test_8
+OK: Result is correct.
+Your code took 1.5464820000000001 sec. CPU time. The master solution took 1.4665460000000001 sec. CPU time.
+Mark = 4/4
+----------
+
+model_2_test_9
+OK: Result is correct.
+Your code took 1.197159 sec. CPU time. The master solution took 1.2046089999999998 sec. CPU time.
+Mark = 4/4
+----------
+
+Mark Total for Tests of sudoku Model 2= 40.00/40
+
+**************************************************
+Question 4 Written Answers
+**************************************************
+q4.1: mark = 1.5/2.5
+q4.2: mark = 2.5/2.5
+q4.3: mark = 2.5/2.5
+q4.4: mark = 2.5/2.5
+Q1: Model-2 is more effective  but does not always reduce the domain more than Model-1
+
+Mark for written questions = 9.00/10.0
+
+**************************************************
+A2 total mark = 99.00/100.0
+**************************************************
